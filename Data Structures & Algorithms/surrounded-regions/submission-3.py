@@ -1,0 +1,41 @@
+from typing import List
+
+class Solution:
+    def solve(self, board: List[List[str]]) -> None:
+        if not board or not board[0]:
+            return
+
+        m = len(board)
+        n = len(board[0])
+
+        def dfs(r: int, c: int) -> None:
+            if r < 0 or r >= m or c < 0 or c >= n:
+                return
+            if board[r][c] != 'O':
+                return
+
+            board[r][c] = '#'
+
+            dfs(r - 1, c)#上
+            dfs(r + 1, c)#下
+            dfs(r, c - 1)#左
+            dfs(r, c + 1)#右
+
+        for c in range(n):
+            if board[0][c] == 'O': # 第一行
+                dfs(0, c)
+            if board[m - 1][c] == 'O': # 最后一行
+                dfs(m - 1, c)
+
+        for r in range(m):
+            if board[r][0] == 'O': # 第一列
+                dfs(r, 0)
+            if board[r][n - 1] == 'O': # 最后一列
+                dfs(r, n - 1)
+
+        for r in range(m):
+            for c in range(n):
+                if board[r][c] == 'O':
+                    board[r][c] = 'X'
+                elif board[r][c] == '#':
+                    board[r][c] = 'O'

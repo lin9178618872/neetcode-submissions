@@ -1,0 +1,44 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class Solution {  
+    public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        if (root == null) {
+            return subRoot == null;
+        }
+        // 判断以 root 为根的二叉树是否和 subRoot 相同
+        if (isSameTree(root, subRoot)) {
+            return true;
+        }
+        // 去左右子树中判断是否有和 subRoot 相同的子树
+        return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+    }
+
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+        // 判断一对节点是否相同
+        if (p == null && q == null) {
+            return true;
+        }
+        if (p == null || q == null) {
+            return false;
+        }
+        if (p.val != q.val) {
+            return false;
+        }
+        // 判断其他节点是否相同
+        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+    }
+}//o(m*n),o(logm)
